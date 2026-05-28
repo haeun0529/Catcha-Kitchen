@@ -20,7 +20,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void SetHeldItem(string item)
     {
-        // 이미 들고 있으면 먼저 버리기
+        // 이미 들고 있으면 먼저 버리기 (임시)
         if (heldItemObject != null)
             Destroy(heldItemObject);
 
