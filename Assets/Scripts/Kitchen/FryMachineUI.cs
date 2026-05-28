@@ -1,22 +1,10 @@
 using UnityEngine;
 using TMPro;
 
-public class FryerMachineUI : MonoBehaviour
+public class FryMachineUI : MonoBehaviour
 {
     public GameObject timerPanel;
     public TextMeshProUGUI timerText;
-    public Transform machine;
-    public Vector3 offset = new Vector3(0, 100f, 0);
-
-    void Update()
-    {
-        if (timerPanel.activeSelf && machine != null)
-        {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(
-                machine.position + new Vector3(0, 2f, 0));
-            timerPanel.transform.position = screenPos + offset;
-        }
-    }
 
     public void ShowTimer(float time)
     {

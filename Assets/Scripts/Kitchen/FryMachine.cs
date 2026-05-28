@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class FryerMachine : MonoBehaviour
+public class FryMachine : MonoBehaviour
 {
     private bool playerNearby = false;
     private bool isCooking = false;
@@ -10,7 +10,7 @@ public class FryerMachine : MonoBehaviour
     private bool isReady = false;
 
     [Header("UI")]
-    public FryerMachineUI machineUI;
+    public FryMachineUI machineUI;
 
     void OnTriggerEnter(Collider other)
     {
