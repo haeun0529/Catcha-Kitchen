@@ -58,7 +58,8 @@ public class Customer : MonoBehaviour
         {
             transform.position = targetPosition;
             currentState = State.Waiting;
-            customerUI.ShowOrders(remainingOrders);
+            if (customerUI != null)
+                customerUI.ShowOrders(remainingOrders);
             Debug.Log("손님 착석!");
         }
     }
@@ -66,12 +67,11 @@ public class Customer : MonoBehaviour
     void UpdateWaitTimer()
     {
         currentWaitTime -= Time.deltaTime;
-        customerUI.UpdateTimer(currentWaitTime / waitTime);
+        if (customerUI != null)
+            customerUI.UpdateTimer(currentWaitTime / waitTime);
 
         if (currentWaitTime <= 0f)
-        {
             Leave(false);
-        }
     }
 
     void TryServe()
