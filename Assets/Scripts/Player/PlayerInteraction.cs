@@ -5,12 +5,17 @@ public class PlayerInteraction : MonoBehaviour
     public static PlayerInteraction Instance;
 
     public string heldItem = "";
-    public Transform handPosition;      // 손 위치 오브젝트
-    private GameObject heldItemObject;  // 현재 들고 있는 오브젝트
+    public bool hasPlate = false;        // 접시 들고 있는지
+    public Transform handPosition;
+    private GameObject heldItemObject;
 
     [Header("아이템 프리팹")]
-    public GameObject[] itemPrefabs;    // 떡, 고추장, 오뎅, 튀김 순서
-    public string[] itemNames;          // 떡, 고추장, 오뎅, 튀김
+    public GameObject[] itemPrefabs;
+    public string[] itemNames;
+
+    [Header("접시 프리팹")]
+    public GameObject platePrefab;
+    private GameObject plateObject;
 
     void Awake()
     {
@@ -18,15 +23,48 @@ public class PlayerInteraction : MonoBehaviour
             Instance = this;
     }
 
+    public void PickupPlate()
+    {
+        if (hasPlate) return;  // 이미 접시 있으면 무시
+        if (heldItem != "") return;  // 뭔가 들고 있으면 무시
+
+        hasPlate = true;
+        plateObject = Instantiate(platePrefab, handPosition);
+        plateObject.transform.localPosition = Vector3.zero;
+        Debug.Log("접시 집음!");
+    }
+
+    public void DropPlate()
+    {
+        if (!hasPlate) return;
+
+        hasPlate = false;
+        heldItem = "";
+        if (plateObject != null)
+            Destroy(plateObject);
+        if (heldItemObject != null)
+            Destroy(heldItemObject);
+        Debug.Log("접시 내려놓음!");
+    }
+
     public void SetHeldItem(string item)
     {
-        // 이미 들고 있으면 먼저 버리기 (임시)
+        // 완성된 음식은 접시 없으면 못 집음
+        string[] cookedItems = { "떡볶이", "튀김완성", "오뎅완성" };
+        foreach (string cooked in cookedItems)
+        {
+            if (item == cooked && !hasPlate)
+            {
+                Debug.Log("접시가 없어서 못 집음!");
+                return;
+            }
+        }
+
         if (heldItemObject != null)
             Destroy(heldItemObject);
 
         heldItem = item;
 
-        // 아이템 프리팹 찾아서 손에 붙이기
         int idx = System.Array.IndexOf(itemNames, item);
         if (idx >= 0 && idx < itemPrefabs.Length)
         {
