@@ -5,7 +5,7 @@ public class PlayerInteraction : MonoBehaviour
     public static PlayerInteraction Instance;
 
     public string heldItem = "";
-    public bool hasPlate = false;        // 접시 들고 있는지
+    public bool hasPlate = false;
     public Transform handPosition;
     private GameObject heldItemObject;
 
@@ -25,8 +25,8 @@ public class PlayerInteraction : MonoBehaviour
 
     public void PickupPlate()
     {
-        if (hasPlate) return;  // 이미 접시 있으면 무시
-        if (heldItem != "") return;  // 뭔가 들고 있으면 무시
+        if (hasPlate) return;
+        if (heldItem != "") return;
 
         hasPlate = true;
         plateObject = Instantiate(platePrefab, handPosition);
@@ -49,7 +49,6 @@ public class PlayerInteraction : MonoBehaviour
 
     public void SetHeldItem(string item)
     {
-        // 완성된 음식은 접시 없으면 못 집음
         string[] cookedItems = { "떡볶이", "튀김완성", "오뎅완성" };
         foreach (string cooked in cookedItems)
         {
@@ -58,6 +57,12 @@ public class PlayerInteraction : MonoBehaviour
                 Debug.Log("접시가 없어서 못 집음!");
                 return;
             }
+        }
+
+        if (heldItem != "")
+        {
+            Debug.Log("이미 아이템을 들고 있어!");
+            return;
         }
 
         if (heldItemObject != null)
