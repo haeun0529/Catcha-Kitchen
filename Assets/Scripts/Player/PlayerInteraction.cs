@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool hasPlate = false;
     public Transform handPosition;
     private GameObject heldItemObject;
+    private GameObject plateObject;
 
     [Header("아이템 프리팹")]
     public GameObject[] itemPrefabs;
@@ -15,12 +18,52 @@ public class PlayerInteraction : MonoBehaviour
 
     [Header("접시 프리팹")]
     public GameObject platePrefab;
-    private GameObject plateObject;
+
+    private List<Interactable> nearbyInteractables = new List<Interactable>();
 
     void Awake()
     {
         if (Instance == null)
             Instance = this;
+    }
+
+    void Update()
+    {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            Interactable closest = GetClosestInteractable();
+            if (closest != null)
+                closest.Interact();
+        }
+    }
+
+    Interactable GetClosestInteractable()
+    {
+        Interactable closest = null;
+        float minDist = float.MaxValue;
+
+        foreach (var interactable in nearbyInteractables)
+        {
+            if (interactable == null) continue;
+            float dist = Vector3.Distance(transform.position, interactable.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closest = interactable;
+            }
+        }
+        return closest;
+    }
+
+    public void SetInteractable(Interactable interactable)
+    {
+        if (!nearbyInteractables.Contains(interactable))
+            nearbyInteractables.Add(interactable);
+    }
+
+    public void ClearInteractable(Interactable interactable)
+    {
+        nearbyInteractables.Remove(interactable);
     }
 
     public void PickupPlate()

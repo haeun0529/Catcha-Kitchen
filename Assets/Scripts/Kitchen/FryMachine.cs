@@ -1,9 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class FryMachine : MonoBehaviour
+public class FryMachine : Interactable
 {
-    private bool playerNearby = false;
     private bool isCooking = false;
     private float cookTime = 6f;
     private float currentTime = 0f;
@@ -11,18 +9,6 @@ public class FryMachine : MonoBehaviour
 
     [Header("UI")]
     public FryMachineUI machineUI;
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            playerNearby = true;
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            playerNearby = false;
-    }
 
     void Update()
     {
@@ -39,20 +25,20 @@ public class FryMachine : MonoBehaviour
                 machineUI.ShowReady();
             }
         }
+    }
 
-        if (playerNearby && Keyboard.current.spaceKey.wasPressedThisFrame)
+    public override void Interact()
+    {
+        string heldItem = PlayerInteraction.Instance.heldItem;
+
+        if (!isCooking && !isReady)
         {
-            string heldItem = PlayerInteraction.Instance.heldItem;
-
-            if (!isCooking && !isReady)
-            {
-                if (heldItem == "튀김")
-                    StartCooking();
-            }
-            else if (isReady)
-            {
-                TakeFood();
-            }
+            if (heldItem == "튀김")
+                StartCooking();
+        }
+        else if (isReady)
+        {
+            TakeFood();
         }
     }
 
