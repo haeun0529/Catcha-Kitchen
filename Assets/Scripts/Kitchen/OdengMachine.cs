@@ -10,6 +10,15 @@ public class OdengMachine : Interactable
     [Header("UI")]
     public OdengMachineUI machineUI;
 
+    [Header("모델")]
+    public GameObject modelBasic;
+    public GameObject modelOdeng;
+
+    void Start()
+    {
+        ShowModel(modelBasic);
+    }
+
     void Update()
     {
         if (isCooking)
@@ -47,6 +56,7 @@ public class OdengMachine : Interactable
         isCooking = true;
         currentTime = cookTime;
         PlayerInteraction.Instance.DropItem();
+        ShowModel(modelOdeng);
         machineUI.ShowTimer(cookTime);
         Debug.Log("오뎅 조리 시작!");
     }
@@ -54,8 +64,15 @@ public class OdengMachine : Interactable
     void TakeFood()
     {
         isReady = false;
+        ShowModel(modelBasic);
         PlayerInteraction.Instance.SetHeldItem("오뎅완성");
         machineUI.HideTimer();
         Debug.Log("오뎅 완성!");
+    }
+
+    void ShowModel(GameObject target)
+    {
+        modelBasic.SetActive(target == modelBasic);
+        modelOdeng.SetActive(target == modelOdeng);
     }
 }
