@@ -5754,6 +5754,8 @@ MonoBehaviour:
   - "\uC624\uB385"
   - "\uB5A1"
   platePrefab: {fileID: 4569036487426140896, guid: b8436f9c284a045b08541fa8bb4025a4, type: 3}
+  cleanMaterial: {fileID: 2100000, guid: 2525b2241d4de43bbaab3bd8527b852d, type: 2}
+  dirtyMaterial: {fileID: 2100000, guid: a14ed5d4147a642659c9822810534351, type: 2}
 --- !u!1 &1750237931
 GameObject:
   m_ObjectHideFlags: 0

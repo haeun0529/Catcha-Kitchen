@@ -19,6 +19,27 @@ public class PlayerInteraction : MonoBehaviour
     [Header("접시 프리팹")]
     public GameObject platePrefab;
 
+    [Header("접시 머티리얼")]
+    public Material cleanMaterial;
+    public Material dirtyMaterial;
+
+    private bool isPlateDirty = false;
+
+    public void SetPlateDirty(bool dirty)
+    {
+        isPlateDirty = dirty;
+        if (plateObject != null)
+        {
+            MeshRenderer renderer = plateObject.GetComponent<MeshRenderer>();
+            renderer.material = dirty ? dirtyMaterial : cleanMaterial;
+        }
+    }
+
+    public bool IsPlateDirty()
+    {
+        return isPlateDirty;
+    }
+
     private List<Interactable> nearbyInteractables = new List<Interactable>();
 
     void Awake()
@@ -74,6 +95,8 @@ public class PlayerInteraction : MonoBehaviour
         hasPlate = true;
         plateObject = Instantiate(platePrefab, handPosition);
         plateObject.transform.localPosition = Vector3.zero;
+        isPlateDirty = false; 
+        SetPlateDirty(false); 
         Debug.Log("접시 집음!");
     }
 
