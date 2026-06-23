@@ -1,9 +1,7 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class TteokbokkiMachine : MonoBehaviour
+public class TteokbokkiMachine : Interactable
 {
-    private bool playerNearby = false;
     private bool isCooking = false;
     private float cookTime = 6f;
     private float currentTime = 0f;
@@ -12,16 +10,18 @@ public class TteokbokkiMachine : MonoBehaviour
     [Header("UI")]
     public TteokbokkiMachineUI machineUI;
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            playerNearby = true;
-    }
+    [Header("모델")]
+    public GameObject modelBasic;
+    public GameObject modelTteok;
+    public GameObject modelGochujang;
+    public GameObject modelCooking;
 
-    void OnTriggerExit(Collider other)
+    private string[] ingredients = new string[2];
+    private int ingredientCount = 0;
+
+    void Start()
     {
-        if (other.CompareTag("Player"))
-            playerNearby = false;
+        ShowModel(modelBasic);
     }
 
     void Update()
@@ -39,27 +39,22 @@ public class TteokbokkiMachine : MonoBehaviour
                 machineUI.ShowReady();
             }
         }
-
-        if (playerNearby && Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            string heldItem = PlayerInteraction.Instance.heldItem;
-
-            if (!isCooking && !isReady)
-            {
-                if (heldItem == "떡" || heldItem == "고추장")
-                {
-                    AddIngredient(heldItem);
-                }
-            }
-            else if (isReady)
-            {
-                TakeFood();
-            }
-        }
     }
 
-    private string[] ingredients = new string[2];
-    private int ingredientCount = 0;
+    public override void Interact()
+    {
+        string heldItem = PlayerInteraction.Instance.heldItem;
+
+        if (!isCooking && !isReady)
+        {
+            if (heldItem == "떡" || heldItem == "고추장")
+                AddIngredient(heldItem);
+        }
+        else if (isReady)
+        {
+            TakeFood();
+        }
+    }
 
     void AddIngredient(string item)
     {
@@ -70,16 +65,29 @@ public class TteokbokkiMachine : MonoBehaviour
         ingredientCount++;
         PlayerInteraction.Instance.DropItem();
 
+        UpdateModel();
         Debug.Log($"재료 추가: {item} ({ingredientCount}/2)");
 
         if (ingredientCount >= 2)
             StartCooking();
     }
 
+    void UpdateModel()
+    {
+        if (ingredientCount == 1)
+        {
+            if (ingredients[0] == "떡")
+                ShowModel(modelTteok);
+            else if (ingredients[0] == "고추장")
+                ShowModel(modelGochujang);
+        }
+    }
+
     void StartCooking()
     {
         isCooking = true;
         currentTime = cookTime;
+        ShowModel(modelCooking);
         machineUI.ShowTimer(cookTime);
         Debug.Log("떡볶이 조리 시작!");
     }
@@ -89,8 +97,17 @@ public class TteokbokkiMachine : MonoBehaviour
         isReady = false;
         ingredientCount = 0;
         ingredients = new string[2];
+        ShowModel(modelBasic);
         PlayerInteraction.Instance.SetHeldItem("떡볶이");
         machineUI.HideTimer();
         Debug.Log("떡볶이 완성!");
+    }
+
+    void ShowModel(GameObject target)
+    {
+        modelBasic.SetActive(target == modelBasic);
+        modelTteok.SetActive(target == modelTteok);
+        modelGochujang.SetActive(target == modelGochujang);
+        modelCooking.SetActive(target == modelCooking);
     }
 }

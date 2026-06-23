@@ -1,9 +1,23 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TrashCan : MonoBehaviour
+public class TrashCan : Interactable
 {
     private bool playerNearby = false;
+
+     public override void Interact()
+    {
+        if (PlayerInteraction.Instance.heldItem != "")
+        {
+            Debug.Log($"{PlayerInteraction.Instance.heldItem} 버림!");
+            PlayerInteraction.Instance.DropItem();
+        }
+        else if (PlayerInteraction.Instance.hasPlate)
+        {
+            Debug.Log("접시 버림!");
+            PlayerInteraction.Instance.DropPlate();
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {

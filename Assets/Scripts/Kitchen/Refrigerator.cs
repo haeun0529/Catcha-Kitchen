@@ -1,10 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Refrigerator : MonoBehaviour
+public class Refrigerator : Interactable
 {
     public string[] items = { "떡", "고추장", "오뎅", "튀김" };
     private bool playerNearby = false;
+
+    public override void Interact()
+    {
+        if (!RefrigeratorUI.Instance.isOpen)
+            RefrigeratorUI.Instance.ShowItemSelect(items, transform);
+        else
+            RefrigeratorUI.Instance.PickItemPublic();
+    }
 
     void OnTriggerEnter(Collider other)
     {
