@@ -6084,8 +6084,8 @@ MonoBehaviour:
   handPosition: {fileID: 1164704779}
   itemPrefabs:
   - {fileID: 1756619033971885836, guid: 7261a2e6a99e145099363fea50291b36, type: 3}
-  - {fileID: 8854775473286003779, guid: 7fa286f9507bd45338eceeb1bb35eccc, type: 3}
-  - {fileID: 257050716715159959, guid: 6472740f0007d42b0bd60492659ea207, type: 3}
+  - {fileID: 3503036748501665726, guid: e6145ce53abd147b5862e7e0a71d217e, type: 3}
+  - {fileID: 3980332165287849743, guid: 6472740f0007d42b0bd60492659ea207, type: 3}
   - {fileID: 8321579112543344771, guid: 03080282a058c4e2593bc764e5671048, type: 3}
   itemNames:
   - "\uD280\uAE40"
