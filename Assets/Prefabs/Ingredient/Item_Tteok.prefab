@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f01f2fb475a4461987fec780c84fbfc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7f01f2fb475a4461987fec780c84fbfc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d66e51864da3e4398bf0199ebd07e3ab, type: 2}
     - target: {fileID: 919132149155446097, guid: 7f01f2fb475a4461987fec780c84fbfc, type: 3}
       propertyPath: m_Name
       value: Item_Tteok
