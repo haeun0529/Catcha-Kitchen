@@ -87,7 +87,7 @@ public class Customer : MonoBehaviour
             if (remainingOrders.Count == 0)
             {
                 int coin = orders.Count * 50;
-                Debug.Log($"코인 획득: {coin}");
+                CoinManager.Instance.AddCoin(coin);
                 Leave(true);
             }
             else
